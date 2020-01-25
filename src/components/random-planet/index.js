@@ -4,14 +4,30 @@ import SwapiService from "../../services/swapi-service";
 
 import './index.css';
 
+import Spinner from "../spinner/index";
+import ErrorIndicator from '../error-indicator';
+
 const RandomPlanet = props => {
   const [planet, setPlanet] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  
   useEffect(() => {
     updatePlanet();
+    const intervalID = setInterval(updatePlanet, 5000);
+    return () => {
+      clearInterval(intervalID);
+    }
   }, []);
 
   const onPlanetLoaded = planet => {
     setPlanet(planet);
+    setLoading(false);
+  }
+
+  const onError = err => {
+    setError(true);
+    setLoading(false);
   }
 
   const updatePlanet = () => {
@@ -20,10 +36,23 @@ const RandomPlanet = props => {
     swapiService
       .getPlanet(id)
       .then(onPlanetLoaded)
+      .catch(onError);
   }
-  
+
   return (
     <div className="random-planet jumbotron rounded">
+      {error && <ErrorIndicator />}
+      {loading && <Spinner />}
+      {!(loading || error) && <PlanetView planet={planet}/>}
+    </div>
+  );
+}
+
+export default RandomPlanet;
+
+const PlanetView = ({ planet }) => {
+  return (
+    <React.Fragment>
       <img className="planet-image"
         src={`https://starwars-visualguide.com/assets/img/planets/${planet.id}.jpg`} />
       <div>
@@ -43,8 +72,6 @@ const RandomPlanet = props => {
           </li>
         </ul>
       </div>
-    </div>
-  );
+    </React.Fragment>
+  )
 }
-
-export default RandomPlanet;

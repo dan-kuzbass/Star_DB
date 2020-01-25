@@ -1,28 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Header from '../header';
 import RandomPlanet from '../random-planet';
-import ItemList from '../item-list';
-import PersonDetails from '../person-details';
 
 import './index.css';
+import PeoplePage from '../people-page';
 
-const App = () => {
+const App = props => {
+
+  const [showRandomPlanet, setShowRandomPlanet] = useState(true);
+
+  const toggleRandomPlanet = () => {
+    setShowRandomPlanet(!showRandomPlanet);
+  };
+
+  const planet = showRandomPlanet ?
+    <RandomPlanet /> :
+    null;
+
   return (
-    <div>
+    <div className="stardb-app">
       <Header />
-      <RandomPlanet />
-
-      <div className="row mb2">
-        <div className="col-md-6">
-          <ItemList />
-        </div>
-        <div className="col-md-6">
-          <PersonDetails />
-        </div>
-      </div>
+      {planet}
+      <button
+        className="toggle-planet btn btn-warning btn-lg"
+        onClick={toggleRandomPlanet}>
+          Toggle Random Planet
+      </button>
+      <PeoplePage />
     </div>
+
   );
-};
+}
 
 export default App;
