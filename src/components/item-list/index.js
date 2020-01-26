@@ -16,7 +16,7 @@ const ItemList = props => {
   const renderItems = array => {    
     return array.map(item => {
       const { id } = item;
-      const label = props.renderItem(item);
+      const label = props.children(item);
       return <li className="list-group-item"
           key={id} 
           onClick={() => {props.onItemSelected(id)}}>

@@ -4,6 +4,7 @@ import ItemList from '../item-list';
 import PersonDetails from '../person-details';
 import SwapiService from "../../services/swapi-service";
 import Row from "../row";
+import ErrorBoundry from "../error-boundry";
 
 const PeoplePage = props => {
 
@@ -18,16 +19,20 @@ const PeoplePage = props => {
     <ItemList
       onItemSelected={onPersonSelected}
       getData={swapiService.getAllPeople}
-      renderItem={({ name, gender, birthYear }) =>
-        `${name} (${gender}, ${birthYear})`
-      } />
+    >
+      {(i) =>
+        `${i.name} (${i.birthYear})`
+      }
+    </ItemList>
   )
   const personDetails = (
     <PersonDetails personId={selectedPerson} />
   );
 
   return (
-    <Row left={itemList} right={personDetails} />
+    <ErrorBoundry>
+      <Row left={itemList} right={personDetails} />
+    </ErrorBoundry>
   )
 }
 
