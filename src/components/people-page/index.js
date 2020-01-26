@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./index.css";
 import ItemList from '../item-list';
-import PersonDetails from '../person-details';
+import ItemDetails from '../item-details';
 import SwapiService from "../../services/swapi-service";
 import Row from "../row";
 import ErrorBoundry from "../error-boundry";
@@ -26,7 +26,7 @@ const PeoplePage = props => {
     </ItemList>
   )
   const personDetails = (
-    <PersonDetails personId={selectedPerson} />
+    <ItemDetails itemId={selectedPerson} />
   );
 
   return (
