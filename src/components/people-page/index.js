@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./index.css";
 import ItemList from '../item-list';
 import PersonDetails from '../person-details';
+import SwapiService from "../../services/swapi-service";
+import Row from "../row";
 
 const PeoplePage = props => {
 
@@ -11,15 +13,21 @@ const PeoplePage = props => {
     setSelectedPerson(id);
   }
 
+  const swapiService = new SwapiService();
+  const itemList = (
+    <ItemList
+      onItemSelected={onPersonSelected}
+      getData={swapiService.getAllPeople}
+      renderItem={({ name, gender, birthYear }) =>
+        `${name} (${gender}, ${birthYear})`
+      } />
+  )
+  const personDetails = (
+    <PersonDetails personId={selectedPerson} />
+  );
+
   return (
-    <div className="row mb2" style={{marginTop: "15px"}}>
-      <div className="col-md-6">
-        <ItemList onItemSelected={onPersonSelected} />
-      </div>
-      <div className="col-md-6">
-        <PersonDetails personId={selectedPerson} />
-      </div>
-    </div>
+    <Row left={itemList} right={personDetails} />
   )
 }
 

@@ -25,11 +25,10 @@ const App = props => {
       <button
         className="toggle-planet btn btn-warning btn-lg"
         onClick={toggleRandomPlanet}>
-          Toggle Random Planet
+        Toggle Random Planet
       </button>
       <PeoplePage />
     </div>
-
   );
 }
 

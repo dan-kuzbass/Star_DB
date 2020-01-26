@@ -1,37 +1,36 @@
 import React, { useState, useEffect } from 'react';
 
 import './index.css';
-import SwapiService from "../../services/swapi-service";
 import Spinner from "../spinner/index";
 
 const ItemList = props => {
 
-  const [peopleList, setPeopleList] = useState(null);
-  const swapiService = new SwapiService();
+  const [itemList, setItemList] = useState(null);
   useEffect(() => {
-    swapiService
-      .getAllPeople()
-      .then(peoplesList => {
-        setPeopleList(peoplesList)
+    props.getData()
+      .then(data => {
+        setItemList(data)
       })
   }, [])
 
-  const renderItems = array => {
-    return array.map(({id, name}) => {
+  const renderItems = array => {    
+    return array.map(item => {
+      const { id } = item;
+      const label = props.renderItem(item);
       return <li className="list-group-item"
           key={id} 
           onClick={() => {props.onItemSelected(id)}}>
-        {name}
+        {label}
       </li>
     })
   }
 
-  if (!peopleList) {
+  if (!itemList) {
     return <Spinner/>
   }  
   return (
     <ul className="item-list list-group">
-      {renderItems(peopleList)}
+      {renderItems(itemList)}
     </ul>
   );
 }
