@@ -13,12 +13,12 @@ const PeoplePage = props => {
   const onPersonSelected = id => {
     setSelectedPerson(id);
   }
-
-  const swapiService = new SwapiService();
+  
+  const { getPerson, getAllPeople, getPersonImage } = new SwapiService();
   const itemList = (
     <ItemList
       onItemSelected={onPersonSelected}
-      getData={swapiService.getAllPeople}
+      getData={getAllPeople}
     >
       {(i) =>
         `${i.name} (${i.birthYear})`
@@ -26,7 +26,11 @@ const PeoplePage = props => {
     </ItemList>
   )
   const personDetails = (
-    <ItemDetails itemId={selectedPerson} />
+    <ItemDetails 
+      itemId={selectedPerson} 
+      getData={getPerson}
+      getImageUrl={getPersonImage}
+    />
   );
 
   return (
